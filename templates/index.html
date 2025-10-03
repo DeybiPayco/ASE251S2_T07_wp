@@ -8,56 +8,144 @@
     <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/carrusel.css') }}" rel="stylesheet">
     <link href="{{ url_for('static', filename='css/dark-mode.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <title>Pastelería Delicias</title>
+    <title>Inicio - Pastelería Delicias</title>
 </head>
 
 <body>
-    {% include 'partials/header.html' %}
 
-    <div class="carousel-container mt-6">
-        <div class="carousel-slide active">
-            <img src="{{ url_for('static', filename='image/4.jpg') }}" alt="Imagen 1">
+    <!-- HEADER -->
+    <header class="header-foursweets">
+        <div class="top-bar">
+            <div class="contact-info">
+                <span>📞 965897987</span>
+                <span>✉️ Nosotros@gmail.com</span>
+            </div>
+            <div class="user-actions">
+                <a href="#">Inicia sesión 👤</a>
+                <a href="#">🔍</a>
+            </div>
         </div>
-        <div class="carousel-slide">
-            <img src="{{ url_for('static', filename='image/6.jpg') }}" alt="Imagen 2">
+        <div class="main-header">
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+            <div class="logo-center">
+                <h1>FOUR SWEETS</h1>
+            </div>
+            <div class="main-actions">
+                <button class="buy-button">Comprar ahora</button>
+                <button id="theme-toggle" class="btn-theme-toggle">
+                    <img src="{{ url_for('static', filename='image/moon-icon.svg') }}" alt="Modo oscuro"
+                        class="moon-icon">
+                    <img src="{{ url_for('static', filename='image/sun-icon.svg') }}" alt="Modo claro"
+                        class="sun-icon hidden">
+                </button>
+            </div>
         </div>
-        <div class="carousel-slide">
-            <img src="{{ url_for('static', filename='image/5.jpg') }}" alt="Imagen 3">
-        </div>
-        <button class="carousel-btn prev">&#10094;</button>
-        <button class="carousel-btn next">&#10095;</button>
-        <div class="carousel-dots"></div>
-    </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="{{ url_for('index') }}">HOME</a></li>
+                <li class="dropdown">
+                    <a href="{{ url_for('productos') }}">PRODUCTOS</a>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('productos') }}#pasteles">Pasteles</a>
+                        <a href="{{ url_for('productos') }}#galletas">Galletas</a>
+                        <a href="{{ url_for('productos') }}#bebidas">Bebidas</a>
+                    </div>
+                </li>
+                <li><a href="{{ url_for('contactanos') }}">CONTACTO</a></li>
+                <li><a href="{{ url_for('nosotros') }}">NOSOTROS</a></li>
+                <a href="{{ url_for('login') }}">Inicia sesión 👤</a>
 
-    <main class="main container">
-        <h2 class="center kicker">Nuestros Productos</h2>
-        <div class="products-section flex flex-wrap justify-center gap-6 mt-6">
-            <div class="card">
-                <img src="{{ url_for('static', filename='image/4.jpg') }}" alt="Pastel de chocolate">
-                <h3>Pastel de Chocolate</h3>
-                <p class="muted">Bizcocho suave con cobertura de chocolate.</p>
-                <button class="btn btn-primary mt-2">Comprar</button>
+            </ul>
+        </nav>
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- CARRUSEL -->
+        <section class="carousel-section">
+            <div class="carousel-container">
+                <div class="carousel-slide active">
+                    <img src="{{ url_for('static', filename='image/4.jpg') }}" alt="Slide 1">
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ url_for('static', filename='image/5.jpg') }}" alt="Slide 2">
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ url_for('static', filename='image/6.jpg') }}" alt="Slide 3">
+                </div>
+                <button class="carousel-btn prev">&#10094;</button>
+                <button class="carousel-btn next">&#10095;</button>
+                <div class="carousel-dots"></div>
             </div>
-            <div class="card">
-                <img src="{{ url_for('static', filename='image/6.jpg') }}" alt="Tarta de fresa">
-                <h3>Tarta de Fresa</h3>
-                <p class="muted">Fresas frescas con crema batida casera.</p>
-                <button class="btn btn-primary mt-2">Comprar</button>
+        </section>
+
+        <!-- IMAGEN DEL LOCAL -->
+        <section class="imagen-local">
+            <img src="{{ url_for('static', filename='image/local.jpg') }}" alt="Imagen del local"
+                class="imagen-local-img">
+        </section>
+
+        <!-- CONTACTANOS -->
+        <section class="contacto-home container">
+            <h2 class="center">Contáctanos</h2>
+            <div class="vstack center">
+                <p>📍 Dirección: Av. Dulzura 123, Lima</p>
+                <p>📞 Teléfono: 965897987</p>
+                <p>✉️ Correo: nosotros@gmail.com</p>
+                <p>🕒 Horario: Lunes a Domingo de 7am a 10pm</p>
             </div>
-            <div class="card">
-                <img src="{{ url_for('static', filename='image/5.jpg') }}" alt="Galletas artesanales">
-                <h3>Galletas Artesanales</h3>
-                <p class="muted">Crujientes y hechas con amor.</p>
-                <button class="btn btn-primary mt-2">Comprar</button>
+        </section>
+
+        <!-- INFORMACIÓN INSTITUCIONAL -->
+        <section class="info-institucional container">
+            <div class="footer-grid">
+                <div class="vstack">
+                    <h3>Nosotros</h3>
+                    <a href="#">Nuestras Tiendas</a>
+                    <a href="#">Cobertura</a>
+                    <a href="#">Nuestros Productos</a>
+                    <a href="#">Trabaja con nosotros</a>
+                </div>
+                <div class="vstack">
+                    <h3>Servicio al Cliente</h3>
+                    <a href="#">Preguntas Frecuentes</a>
+                    <a href="#">Política de Cookies</a>
+                    <a href="#">Legal Web</a>
+                    <a href="#">Libro de Reclamaciones</a>
+                </div>
+                <div class="vstack">
+                    <h3>Contáctanos</h3>
+                    <p>📞 (01) 7050000 / 980 863 553</p>
+                    <p>✉️ contactcenter@pasteleriadelicias.com</p>
+                    <p>🕒 Atención: Lunes a Domingo de 7am a 10pm</p>
+                </div>
             </div>
-        </div>
+        </section>
+
     </main>
 
-    {% include 'partials/footer.html' %}
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <p class="copyright">
+                &copy; 2025 Pastelería Delicias. Todos los derechos reservados.
+            </p>
+            <div class="links">
+                <a href="mailto:info@pasteleriadelicias.com">info@pasteleriadelicias.com</a>
+                <a href="tel:5551234567">Teléfono: 555-123-4567</a>
+            </div>
+        </div>
+    </footer>
 
-    <script src="{{ url_for('static', filename='js/carrusel.js') }}"></script>
+    <!-- SCRIPTS -->
+    <script src="{{ url_for('static', filename='js/carousel.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme-toggle.js') }}"></script>
+
 </body>
 
 </html>

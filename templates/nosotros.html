@@ -4,31 +4,68 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- CSS global -->
   <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
-  <!-- CSS específico de Nosotros -->
+  <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
   <link href="{{ url_for('static', filename='css/nosotros.css') }}" rel="stylesheet">
-
-  <!-- FontAwesome para los iconos del header -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <title>Nosotros - Pastelería Delicias</title>
 </head>
 
 <body>
-  <!-- Header real -->
-  {% include 'partials/header.html' %}
 
-  <!-- Contenido principal -->
+  <!-- HEADER -->
+  <header class="header-foursweets">
+    <div class="top-bar">
+      <div class="contact-info">
+        <span>📞 965897987</span>
+        <span>✉️ Nosotros@gmail.com</span>
+      </div>
+      <div class="user-actions">
+        <a href="#">Inicia sesión 👤</a>
+        <a href="#">🔍</a>
+      </div>
+    </div>
+    <div class="main-header">
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+      <div class="logo-center">
+        <h1>FOUR SWEETS</h1>
+      </div>
+      <div class="main-actions">
+        <button class="buy-button">Comprar ahora</button>
+        <button id="theme-toggle" class="btn-theme-toggle">
+          <img src="{{ url_for('static', filename='image/moon-icon.svg') }}" alt="Modo oscuro" class="moon-icon">
+          <img src="{{ url_for('static', filename='image/sun-icon.svg') }}" alt="Modo claro" class="sun-icon hidden">
+        </button>
+      </div>
+    </div>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="{{ url_for('index') }}">HOME</a></li>
+        <li class="dropdown">
+          <a href="{{ url_for('productos') }}">PRODUCTOS</a>
+          <div class="dropdown-content">
+            <a href="{{ url_for('productos') }}#pasteles">Pasteles</a>
+            <a href="{{ url_for('productos') }}#galletas">Galletas</a>
+            <a href="{{ url_for('productos') }}#bebidas">Bebidas</a>
+          </div>
+        </li>
+
+        <li><a href="{{ url_for('contactanos') }}">CONTACTO</a></li>
+        <li><a href="{{ url_for('nosotros') }}">NOSOTROS</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- CONTENIDO PRINCIPAL -->
   <main class="nosotros-container">
-    <!-- Hero -->
     <section class="hero">
       <h1>Sobre Nosotros</h1>
       <p>Conoce nuestra historia, misión, visión y valores.</p>
     </section>
 
-    <!-- Historia -->
     <section class="section">
       <h2>Nuestra Historia</h2>
       <p>
@@ -39,7 +76,6 @@
       </p>
     </section>
 
-    <!-- Misión -->
     <section class="section bg-light">
       <h2>Nuestra Misión</h2>
       <p>
@@ -48,7 +84,6 @@
       </p>
     </section>
 
-    <!-- Visión -->
     <section class="section">
       <h2>Nuestra Visión</h2>
       <p>
@@ -57,7 +92,6 @@
       </p>
     </section>
 
-    <!-- Valores -->
     <section class="section bg-light">
       <h2>Nuestros Valores</h2>
       <ul class="valores-list">
@@ -69,8 +103,18 @@
     </section>
   </main>
 
-  <!-- Footer real -->
-  {% include 'partials/footer.html' %}
+  <!-- FOOTER PERSONALIZADO -->
+  <footer class="footer-nosotros">
+    <div class="footer-nosotros-inner">
+      <p class="footer-nosotros-copy">
+        &copy; 2025 Pastelería Delicias. Todos los derechos reservados.
+      </p>
+      <div class="footer-nosotros-links">
+        <a href="mailto:info@pasteleriadelicias.com">info@pasteleriadelicias.com</a>
+        <a href="tel:5551234567">Teléfono: 555-123-4567</a>
+      </div>
+    </div>
+  </footer>
 </body>
 
 </html>
