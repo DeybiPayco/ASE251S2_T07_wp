@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Página no encontrada - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="section">
+    <div class="section-header">
+      <h2 class="kicker reveal">Oops</h2>
+      <h1 class="section-title reveal reveal-stagger-1">Página no encontrada</h1>
+      <p class="section-subtitle reveal reveal-stagger-2">La página que buscas no existe o ha sido movida</p>
+    </div>
+
+    <div class="max-w-2xl mx-auto text-center">
+      <div class="card reveal reveal-stagger-1">
+        <div class="text-6xl mb-6">🍰</div>
+        <h3 class="text-2xl font-bold mb-4">404 - Página no encontrada</h3>
+        <p class="text-gray-600 mb-8">
+          Lo sentimos, pero la página que estás buscando no se encuentra en nuestro sitio.
+          Puede que hayas escrito mal la dirección o que la página haya sido movida.
+        </p>
+
+        <div class="space-y-4">
+          <a href="{{ url_for('index') }}" class="btn btn-primary inline-block">
+            Volver al inicio
+          </a>
+
+          <div class="text-sm text-gray-500">
+            <p>O puedes explorar nuestras secciones:</p>
+            <div class="flex justify-center space-x-4 mt-2">
+              <a href="{{ url_for('productos') }}" class="text-primary hover:underline">Productos</a>
+              <a href="{{ url_for('contactanos') }}" class="text-primary hover:underline">Contacto</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.card {
+  background: white;
+  padding: 3rem 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.text-6xl {
+  font-size: 4rem;
+  line-height: 1;
+}
+
+.space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.space-x-4 > * + * {
+  margin-left: 1rem;
+}
+
+.text-gray-600 {
+  color: #6b7280;
+}
+
+.text-gray-500 {
+  color: #9ca3af;
+}
+
+.text-primary {
+  color: #3b82f6;
+}
+
+.hover\:underline:hover {
+  text-decoration: underline;
+}
+</style>
+{% endblock %}

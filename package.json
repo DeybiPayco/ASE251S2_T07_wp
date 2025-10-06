@@ -1,16 +1,23 @@
 {
-"name": "prototipo-web",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "build:css": "npxtailwindcss -i ./static/css/input.css -o ./static/css/output.css"   aqui esta reemplazado
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "@tailwindcss/cli": "^4.1.11",
-    "tailwindcss": "^4.1.11"
-  }
+  "name": "pasteleria-delicias",
+  "version": "1.0.0",
+  "description": "Pastelería Delicias - Sitio web de pasteles artesanales",
+  "main": "app.py",
+  "scripts": {
+    "build:css": "npx tailwindcss -i ./static/css/input.css -o ./static/css/output.css",
+    "build:css:watch": "npx tailwindcss -i ./static/css/input.css -o ./static/css/output.css --watch",
+    "dev": "npm run build:css:watch",
+    "build": "npm run build:css"
+  },
+  "keywords": ["flask", "tailwindcss", "bakery", "pasteleria"],
+  "author": "Pastelería Delicias Team",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.11",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  }
 }

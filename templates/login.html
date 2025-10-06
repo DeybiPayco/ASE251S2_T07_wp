@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+
+{% block title %}Iniciar Sesión - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="section">
+    <div class="section-header">
+      <h2 class="kicker reveal">Bienvenido de nuevo</h2>
+      <h1 class="section-title reveal reveal-stagger-1">Iniciar Sesión</h1>
+      <p class="section-subtitle reveal reveal-stagger-2">Accede a tu cuenta para disfrutar de nuestros productos</p>
+    </div>
+
+    <div class="max-w-md mx-auto">
+      <div class="card reveal reveal-stagger-1">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} mb-4">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('login') }}">
+          <div class="form-group mb-4">
+            <label for="email" class="form-label">Email</label>
+            <input type="email"
+                   id="email"
+                   name="email"
+                   class="form-input"
+                   required
+                   placeholder="tu@email.com">
+          </div>
+
+          <div class="form-group mb-4">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password"
+                   id="password"
+                   name="password"
+                   class="form-input"
+                   required
+                   placeholder="Tu contraseña">
+          </div>
+
+          <div class="form-group mb-6">
+            <label class="flex items-center">
+              <input type="checkbox"
+                     name="remember"
+                     class="form-checkbox mr-2">
+              <span class="text-sm">Recordarme</span>
+            </label>
+          </div>
+
+          <button type="submit"
+                  class="btn btn-primary w-full mb-4"
+                  style="display: inline-block; width: 100%; padding: 0.75rem; background-color: #3b82f6; color: white; border: none; border-radius: 0.375rem; font-size: 1rem; font-weight: 500; cursor: pointer; transition: background-color 0.15s;"
+                  onmouseover="this.style.backgroundColor='#2563eb'"
+                  onmouseout="this.style.backgroundColor='#3b82f6'">
+            Iniciar Sesión
+          </button>
+        </form>
+
+        <div class="text-center">
+          <p class="text-muted text-sm">
+            ¿No tienes cuenta?
+            <a href="{{ url_for('register') }}" class="text-primary hover:underline">
+              Regístrate aquí
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.card {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.15s;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-checkbox {
+  width: 1rem;
+  height: 1rem;
+  color: #3b82f6;
+  border-radius: 0.25rem;
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 0.375rem;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background-color: #10b981;
+  color: white;
+}
+
+.alert-danger {
+  background-color: #ef4444;
+  color: white;
+}
+
+.alert-warning {
+  background-color: #f59e0b;
+  color: white;
+}
+
+.alert-info {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.max-w-md {
+  max-width: 28rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-muted {
+  color: #6b7280;
+}
+
+.text-primary {
+  color: #3b82f6;
+}
+
+.hover\:underline:hover {
+  text-decoration: underline;
+}
+</style>
+{% endblock %}

@@ -1,1 +1,9 @@
+/* Main CSS File - Simplified */
 @import "tailwindcss";
+@import "./components/base.css";
+@import "./components/header.css";
+@import "./components/carousel.css";
+@import "./components/cards.css";
+@import "./components/footer.css";
+@import "./layout/main.css";
+@import "./utilities/theme.css";
