@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Flask, render_template, request, jsonify, redirect, url_for, flash, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
@@ -91,6 +92,21 @@ def index():
 def productos():
     """Catálogo completo de productos"""
     categoria = request.args.get('categoria', '')
+=======
+from flask import Flask, render_template, request, redirect, url_for
+
+# Inicialización de Flask
+app = Flask(__name__)
+
+# Rutas principales
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/productos')
+def productos():
+    return render_template('productos.html')
+>>>>>>> 6bbafa98b1d904e818105a3cc8c7de5716e4ce54
 
     if categoria:
         productos_lista = Producto.query.filter_by(categoria=categoria, activo=True).all()
@@ -110,6 +126,7 @@ def contactanos():
     """Página de contacto"""
     return render_template('contactanos.html')
 
+<<<<<<< HEAD
 @app.route('/test')
 def test():
     """Página de prueba para botones"""
@@ -573,6 +590,29 @@ def get_categorias():
     return ['Pasteles', 'Tartas', 'Galletas', 'Postres', 'Panadería', 'Bebidas']
 
 # Inicialización del servidor
+=======
+@app.route('/nosotros')
+def nosotros():
+    return render_template('nosotros.html')
+
+# 🧁 Ruta para iniciar sesión
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        # Aquí puedes agregar lógica de autenticación
+        print(f"Usuario: {email}, Contraseña: {password}")
+        return redirect(url_for('index'))  # Redirige al home después de iniciar sesión
+    return render_template('login.html')
+
+# 🍓 Ruta para registro (opcional)
+@app.route('/registro')
+def registro():
+    return render_template('registro.html')
+
+# Ejecutar servidor
+>>>>>>> 6bbafa98b1d904e818105a3cc8c7de5716e4ce54
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

@@ -1,0 +1,89 @@
+/* Fondo general en modo oscuro */
+body.dark-mode {
+  background-color: #121212;
+  color: #eaeaea;
+}
+
+/* Cabecera */
+.header-foursweets.dark-mode {
+  background-color: #1c1c1c;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .top-bar {
+  background-color: #1a1a1a;
+  color: #ccc;
+  border-bottom: 1px solid #333;
+}
+
+.dark-mode .top-bar a {
+  color: #ccc;
+}
+
+/* Logo y redes */
+.dark-mode .logo-center h1 {
+  color: #fff;
+}
+
+.dark-mode .social-icons a {
+  color: #eaeaea;
+}
+
+/* Navegación */
+.dark-mode .main-header {
+  background-color: #1c1c1c;
+}
+
+.dark-mode .main-nav ul {
+  background-color: #222;
+}
+
+.dark-mode .main-nav li a {
+  color: #eaeaea;
+}
+
+.dark-mode .main-nav li a:hover {
+  background-color: #333;
+}
+
+/* Secciones */
+.main.dark-mode {
+  background-color: #181818;
+}
+
+.dark-mode .contacto-home,
+.dark-mode .info-institucional {
+  background-color: #1a1a1a;
+  color: #eaeaea;
+}
+
+/* Footer */
+.footer.dark-mode {
+  background-color: #1c1c1c;
+  border-top: 1px solid #333;
+  color: #ccc;
+}
+
+.dark-mode .footer a {
+  color: #eaeaea;
+}
+
+/* Tarjetas */
+.card.dark-mode {
+  background-color: #202020;
+  border: 1px solid #444;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.card.dark-mode h3 {
+  color: #fff;
+}
+
+.card.dark-mode p.muted {
+  color: #bbb;
+}
+
+/* Íconos de tema */
+body.dark-mode .sun-icon {
+  filter: invert(100%);
+}

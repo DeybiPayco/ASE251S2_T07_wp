@@ -1,0 +1,63 @@
+body {
+  background: #fff5f9;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-container {
+  display: flex;
+  gap: 2rem;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.login-box, .register-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input {
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.btn-login {
+  background: #d946ef;
+  color: white;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-facebook {
+  background: #3b5998;
+  color: white;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-register {
+  background: #fb7185;
+  color: white;
+  padding: 0.6rem;
+  text-align: center;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.forgot {
+  font-size: 0.9rem;
+  color: #6b7280;
+  text-decoration: none;
+}
