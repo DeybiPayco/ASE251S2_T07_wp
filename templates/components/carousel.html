@@ -1,0 +1,16 @@
+<div class="carousel-container">
+  <div class="carousel-slide active">
+    <img src="{{ url_for('static', filename='image/4.jpg') }}" alt="Pastel de chocolate">
+  </div>
+  <div class="carousel-slide">
+    <img src="{{ url_for('static', filename='image/6.jpg') }}" alt="Tarta de fresa">
+  </div>
+  <div class="carousel-slide">
+    <img src="{{ url_for('static', filename='image/5.jpg') }}" alt="Galletas artesanales">
+  </div>
+
+  <button class="carousel-btn prev" aria-label="Anterior">&#10094;</button>
+  <button class="carousel-btn next" aria-label="Siguiente">&#10095;</button>
+
+  <div class="carousel-dots"></div>
+</div>

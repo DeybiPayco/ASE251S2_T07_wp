@@ -1,54 +1,57 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Tailwind generado -->
-  <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
-  <!-- Estilos generales -->
-  <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
-  <!-- Estilos del carrusel -->
-  <link href="{{ url_for('static', filename='css/carrusel.css') }}" rel="stylesheet">
+{% block title %}Pastelería Delicias - Nuestros Productos{% endblock %}
 
-  <title>Pastelería Delicias</title>
-</head>
-
-<body>
-  <!-- Header -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand">
-        <span class="logo"></span>
-        <h1>Pastelería Delicias</h1>
-      </div>
-      <nav class="nav">
-        <a href="{{ url_for('index') }}">Inicio</a>
-        <a href="{{ url_for('productos') }}">Productos</a>
-        <a href="{{ url_for('contactanos') }}">Contacto</a>
-      </nav>
-      <button class="btn btn-primary">Comprar ahora</button>
+{% block content %}
+<div class="container">
+  <div class="section">
+    <div class="section-header">
+      <h2 class="kicker reveal">Catálogo Completo</h2>
+      <h1 class="section-title reveal reveal-stagger-1">Nuestros Productos</h1>
+      <p class="section-subtitle reveal reveal-stagger-2">Descubre nuestra variedad de pasteles y postres artesanales</p>
     </div>
-  </header>
 
+    <!-- Filtro de categorías -->
+    <div class="category-filter reveal reveal-stagger-1">
+      <button class="btn {{ '' if categoria_actual else 'btn-primary' }}" onclick="window.location.href='{{ url_for('productos') }}'">
+        Todos
+      </button>
+      {% for categoria in categorias %}
+      <button class="btn {{ 'btn-primary' if categoria_actual == categoria else 'btn-secondary' }}"
+              onclick="window.location.href='{{ url_for('productos', categoria=categoria) }}'">
+        {{ categoria }}
+      </button>
+      {% endfor %}
+    </div>
 
+    <div class="products-section">
+      {% if productos %}
+        {% for producto in productos %}
+        <article class="card reveal reveal-stagger-{{ loop.index }}">
+          <img src="{{ url_for('static', filename=producto.imagen) }}" alt="{{ producto.nombre }}">
+          <h3>{{ producto.nombre }}</h3>
+          <p class="muted">{{ producto.descripcion }}</p>
+          <div class="flex justify-between items-center mt-4">
+            <span class="text-lg font-semibold">€{{ "%.2f"|format(producto.precio) }}</span>
+            <button class="btn btn-primary">Comprar</button>
+          </div>
+        </article>
+        {% endfor %}
+      {% else %}
+        <div class="col-span-full text-center py-12">
+          <p class="text-muted">No se encontraron productos en esta categoría.</p>
+          <a href="{{ url_for('productos') }}" class="btn btn-primary mt-4">Ver todos los productos</a>
+        </div>
+      {% endif %}
+    </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <p class="copyright">
-        &copy; 2025 Pastelería Delicias. Todos los derechos reservados.
-      </p>
-      <div class="links">
-        <a href="mailto:info@pasteleriadelicias.com">info@pasteleriadelicias.com</a>
-        <a href="tel:5551234567">Teléfono: 555-123-4567</a>
+    <div class="section center mt-6 reveal reveal-stagger-1">
+      <p class="muted mb-4">¿Buscas algo personalizado? <a href="{{ url_for('contactanos') }}" class="text-primary hover:underline">Contáctanos</a> para pedidos especiales.</p>
+      <div class="flex justify-center gap-4">
+        <button class="btn btn-secondary">Ver Promociones</button>
+        <a href="{{ url_for('contactanos') }}" class="btn btn-primary">Hacer Pedido</a>
       </div>
     </div>
-  </footer>
-
-  <!-- JS del carrusel -->
-  <script src="{{ url_for('static', filename='js/carrusel.js') }}"></script>
-</body>
-
-</html>
+  </div>
+</div>
+{% endblock %}

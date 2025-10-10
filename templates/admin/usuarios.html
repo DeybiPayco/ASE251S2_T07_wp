@@ -1,0 +1,241 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Usuarios - Panel de Administración{% endblock %}
+
+{% block page_title %}Gestión de Usuarios{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="flex justify-between items-center mb-6">
+    <div>
+        <h2 class="text-2xl font-bold text-gray-900">Usuarios</h2>
+        <p class="text-gray-600">Administra las cuentas de usuario y permisos</p>
+    </div>
+</div>
+
+<!-- Filters -->
+<div class="bg-white rounded-lg shadow p-4 mb-6">
+    <form method="GET" class="flex flex-wrap gap-4 items-end">
+        <div class="flex-1 min-w-64">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Buscar</label>
+            <input type="text" name="search" value="{{ search }}" placeholder="Buscar por nombre o email..."
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+        <div class="min-w-48">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Usuario</label>
+            <select name="role" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="">Todos los usuarios</option>
+                <option value="admin" {% if role_filter == 'admin' %}selected{% endif %}>Administradores</option>
+                <option value="cliente" {% if role_filter == 'cliente' %}selected{% endif %}>Clientes</option>
+            </select>
+        </div>
+        <button type="submit" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition">
+            <i class="fas fa-search mr-2"></i>
+            Buscar
+        </button>
+        {% if search or role_filter %}
+        <a href="{{ url_for('admin_usuarios') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md transition">
+            <i class="fas fa-times mr-2"></i>
+            Limpiar
+        </a>
+        {% endif %}
+    </form>
+</div>
+
+<!-- Users Table -->
+<div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contacto</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rol</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registro</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                {% for usuario in usuarios.items %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 bg-gray-300 rounded-full flex items-center justify-center mr-3">
+                                <span class="text-sm font-medium text-gray-600">{{ usuario.nombre[0] }}</span>
+                            </div>
+                            <div>
+                                <div class="text-sm font-medium text-gray-900">{{ usuario.nombre }}</div>
+                                <div class="text-xs text-gray-500">{{ usuario.email }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                        {% if usuario.telefono %}
+                        <div class="text-sm">{{ usuario.telefono }}</div>
+                        {% endif %}
+                        {% if usuario.direccion %}
+                        <div class="text-xs text-gray-500">{{ usuario.direccion[:30] }}{% if usuario.direccion|length > 30 %}...{% endif %}</div>
+                        {% endif %}
+                        {% if not usuario.telefono and not usuario.direccion %}
+                        <span class="text-gray-400">No especificado</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        {% if usuario.es_admin %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                            <i class="fas fa-crown mr-1"></i>Administrador
+                        </span>
+                        {% else %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                            Cliente
+                        </span>
+                        {% endif %}
+                        {% if usuario.id == current_user.id %}
+                        <span class="ml-1 text-xs text-gray-500">(Tú)</span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        {% if usuario.activo %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            Activo
+                        </span>
+                        {% else %}
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                            Inactivo
+                        </span>
+                        {% endif %}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                        {{ usuario.creado_en.strftime('%d/%m/%Y') if usuario.creado_en else 'N/A' }}
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div class="flex space-x-2">
+                            {% if usuario.id != current_user.id %}
+                            <form method="POST" action="{{ url_for('admin_usuario_toggle_activo', id=usuario.id) }}"
+                                  class="inline-block" title="{{ 'Desactivar' if usuario.activo else 'Activar' }}">
+                                <button type="submit" class="{{ 'text-gray-600 hover:text-gray-900' if usuario.activo else 'text-green-600 hover:text-green-900' }}">
+                                    <i class="fas {{ 'fa-eye-slash' if usuario.activo else 'fa-eye' }}"></i>
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ url_for('admin_usuario_toggle_admin', id=usuario.id) }}"
+                                  class="inline-block" title="{{ 'Quitar admin' if usuario.es_admin else 'Hacer admin' }}">
+                                <button type="submit" class="{{ 'text-purple-600 hover:text-purple-900' if usuario.es_admin else 'text-blue-600 hover:text-blue-900' }}">
+                                    <i class="fas {{ 'fa-crown' if usuario.es_admin else 'fa-user' }}"></i>
+                                </button>
+                            </form>
+                            <form method="POST" action="{{ url_for('admin_usuario_eliminar', id=usuario.id) }}"
+                                  class="inline-block" onsubmit="return confirm('¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.')">
+                                <button type="submit" class="text-red-600 hover:text-red-900" title="Eliminar">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                            {% else %}
+                            <span class="text-gray-400" title="No puedes modificar tu propio usuario">
+                                <i class="fas fa-lock"></i>
+                            </span>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" class="px-6 py-4 text-center text-gray-500">
+                        {% if search or role_filter %}
+                            No se encontraron usuarios con los filtros especificados.
+                        {% else %}
+                            No hay usuarios registrados.
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if usuarios.pages > 1 %}
+    <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+        <div class="flex-1 flex justify-between sm:hidden">
+            <a href="{{ url_for('admin_usuarios', page=usuarios.prev_num, search=search, role=role_filter) }}"
+               {% if not usuarios.has_prev %}class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium text-gray-300 bg-white cursor-not-allowed"{% else %}class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"{% endif %}>
+                Anterior
+            </a>
+            <a href="{{ url_for('admin_usuarios', page=usuarios.next_num, search=search, role=role_filter) }}"
+               {% if not usuarios.has_next %}class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium text-gray-300 bg-white cursor-not-allowed"{% else %}class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"{% endif %}>
+                Siguiente
+            </a>
+        </div>
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+                <p class="text-sm text-gray-700">
+                    Mostrando
+                    <span class="font-medium">{{ ((usuarios.page - 1) * usuarios.per_page) + 1 }}</span>
+                    a
+                    <span class="font-medium">{{ ((usuarios.page - 1) * usuarios.per_page) + usuarios.items|length }}</span>
+                    de
+                    <span class="font-medium">{{ usuarios.total }}</span>
+                    usuarios
+                </p>
+            </div>
+            <div>
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
+                    {% if usuarios.has_prev %}
+                    <a href="{{ url_for('admin_usuarios', page=usuarios.prev_num, search=search, role=role_filter) }}"
+                       class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                    {% endif %}
+
+                    {% for page_num in usuarios.iter_pages() %}
+                        {% if page_num %}
+                            {% if page_num != usuarios.page %}
+                            <a href="{{ url_for('admin_usuarios', page=page_num, search=search, role=role_filter) }}"
+                               class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+                                {{ page_num }}
+                            </a>
+                            {% else %}
+                            <span class="relative inline-flex items-center px-4 py-2 border border-blue-500 bg-blue-50 text-sm font-medium text-blue-600">
+                                {{ page_num }}
+                            </span>
+                            {% endif %}
+                        {% else %}
+                            <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                ...
+                            </span>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if usuarios.has_next %}
+                    <a href="{{ url_for('admin_usuarios', page=usuarios.next_num, search=search, role=role_filter) }}"
+                       class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Info Box -->
+<div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+    <div class="flex">
+        <div class="flex-shrink-0">
+            <i class="fas fa-info-circle text-blue-400"></i>
+        </div>
+        <div class="ml-3">
+            <h3 class="text-sm font-medium text-blue-800">Información sobre los permisos</h3>
+            <div class="mt-2 text-sm text-blue-700">
+                <ul class="list-disc list-inside space-y-1">
+                    <li><strong>Administradores:</strong> Tienen acceso completo al panel de administración</li>
+                    <li><strong>Clientes:</strong> Solo pueden comprar productos y ver su perfil</li>
+                    <li><strong>Usuarios inactivos:</strong> No pueden iniciar sesión en el sitio</li>
+                    <li>No puedes modificar tu propio usuario ni eliminarte</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

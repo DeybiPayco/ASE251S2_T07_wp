@@ -1,0 +1,219 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ action }} Producto - Panel de Administración{% endblock %}
+
+{% block page_title %}{{ action }} Producto{% endblock %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto">
+    <div class="bg-white rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200">
+            <h3 class="text-lg font-medium text-gray-900">{{ action }} Producto</h3>
+            <p class="text-sm text-gray-600">
+                {% if producto %}
+                    Modifica la información del producto existente
+                {% else %}
+                    Agrega un nuevo producto al catálogo
+                {% endif %}
+            </p>
+        </div>
+
+        <form method="POST" class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nombre -->
+                <div class="col-span-2">
+                    <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">
+                        Nombre del Producto <span class="text-red-500">*</span>
+                    </label>
+                    <input type="text" id="nombre" name="nombre" required
+                           value="{{ producto.nombre if producto else '' }}"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+
+                <!-- Categoría -->
+                <div>
+                    <label for="categoria" class="block text-sm font-medium text-gray-700 mb-1">
+                        Categoría <span class="text-red-500">*</span>
+                    </label>
+                    <select id="categoria" name="categoria" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="">Selecciona una categoría</option>
+                        {% for cat in categorias %}
+                        <option value="{{ cat }}" {% if producto and producto.categoria == cat %}selected{% endif %}>{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Precio -->
+                <div>
+                    <label for="precio" class="block text-sm font-medium text-gray-700 mb-1">
+                        Precio <span class="text-red-500">*</span>
+                    </label>
+                    <div class="relative">
+                        <span class="absolute left-3 top-2 text-gray-500">$</span>
+                        <input type="number" id="precio" name="precio" required
+                               value="{{ producto.precio if producto else '' }}"
+                               step="0.01" min="0"
+                               class="w-full pl-8 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+
+                <!-- Imagen -->
+                <div class="col-span-2">
+                    <label for="imagen" class="block text-sm font-medium text-gray-700 mb-1">
+                        URL de la Imagen
+                    </label>
+                    <input type="text" id="imagen" name="imagen"
+                           value="{{ producto.imagen if producto else '' }}"
+                           placeholder="image/nombre-archivo.jpg"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    {% if producto and producto.imagen %}
+                    <div class="mt-2">
+                        <img src="{{ url_for('static', filename=producto.imagen) }}" alt="Vista previa"
+                             class="h-20 w-20 object-cover rounded-lg border">
+                    </div>
+                    {% endif %}
+                    <p class="mt-1 text-xs text-gray-500">
+                        La imagen debe estar en la carpeta static/image/ o ser una URL completa
+                    </p>
+                </div>
+
+                <!-- Descripción -->
+                <div class="col-span-2">
+                    <label for="descripcion" class="block text-sm font-medium text-gray-700 mb-1">
+                        Descripción
+                    </label>
+                    <textarea id="descripcion" name="descripcion" rows="4"
+                              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">{{ producto.descripcion if producto else '' }}</textarea>
+                </div>
+
+                <!-- Checkboxes -->
+                <div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="destacado" name="destacado"
+                               {% if producto and producto.destacado %}checked{% endif %}
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="destacado" class="ml-2 block text-sm text-gray-900">
+                            Producto destacado
+                        </label>
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">
+                        Los productos destacados aparecen en la página principal
+                    </p>
+                </div>
+
+                <div>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="activo" name="activo"
+                               {% if not producto or producto.activo %}checked{% endif %}
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="activo" class="ml-2 block text-sm text-gray-900">
+                            Producto activo
+                        </label>
+                    </div>
+                    <p class="mt-1 text-xs text-gray-500">
+                        Los productos inactivos no se muestran en la tienda
+                    </p>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="mt-6 flex justify-end space-x-3">
+                <a href="{{ url_for('admin_productos') }}"
+                   class="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-md transition">
+                    Cancelar
+                </a>
+                <button type="submit"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition">
+                    {{ action }} Producto
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Preview Card -->
+    {% if producto or request.method == 'POST' %}
+    <div class="mt-6 bg-white rounded-lg shadow p-6">
+        <h4 class="text-lg font-medium text-gray-900 mb-4">Vista Previa</h4>
+        <div class="border rounded-lg p-4">
+            <div class="flex items-start space-x-4">
+                <div id="preview-image" class="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                    {% if producto and producto.imagen %}
+                    <img src="{{ url_for('static', filename=producto.imagen) }}" alt="Preview" class="w-full h-full object-cover rounded-lg">
+                    {% else %}
+                    <i class="fas fa-birthday-cake text-gray-400"></i>
+                    {% endif %}
+                </div>
+                <div class="flex-1">
+                    <h5 id="preview-name" class="font-semibold text-gray-900">
+                        {{ producto.nombre if producto else 'Nombre del producto' }}
+                    </h5>
+                    <p id="preview-desc" class="text-sm text-gray-600 mt-1">
+                        {{ producto.descripcion[:100] + '...' if producto and producto.descripcion else 'Descripción del producto...' }}
+                    </p>
+                    <div class="mt-2 flex items-center justify-between">
+                        <span id="preview-price" class="text-lg font-bold text-blue-600">
+                            ${{ "%.2f"|format(producto.precio) if producto else '0.00' }}
+                        </span>
+                        <div id="preview-badges" class="flex space-x-1">
+                            {% if producto and producto.activo %}
+                            <span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">Activo</span>
+                            {% endif %}
+                            {% if producto and producto.destacado %}
+                            <span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded">
+                                <i class="fas fa-star"></i> Destacado
+                            </span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+// Live preview functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const nameInput = document.getElementById('nombre');
+    const descInput = document.getElementById('descripcion');
+    const priceInput = document.getElementById('precio');
+    const imageInput = document.getElementById('imagen');
+    const activoCheckbox = document.getElementById('activo');
+    const destacadoCheckbox = document.getElementById('destacado');
+
+    function updatePreview() {
+        const nameEl = document.getElementById('preview-name');
+        const descEl = document.getElementById('preview-desc');
+        const priceEl = document.getElementById('preview-price');
+        const imageEl = document.getElementById('preview-image');
+        const badgesEl = document.getElementById('preview-badges');
+
+        if (nameEl) nameEl.textContent = nameInput.value || 'Nombre del producto';
+        if (descEl) descEl.textContent = (descInput.value || 'Descripción del producto...').substring(0, 100) + '...';
+        if (priceEl) priceEl.textContent = '$' + (parseFloat(priceInput.value) || 0).toFixed(2);
+
+        if (imageEl && imageInput.value) {
+            imageEl.innerHTML = `<img src="${imageInput.value}" alt="Preview" class="w-full h-full object-cover rounded-lg" onerror="this.parentElement.innerHTML='<i class=\\'fas fa-birthday-cake text-gray-400\\'></i>'">`;
+        }
+
+        if (badgesEl) {
+            let badges = '';
+            if (activoCheckbox.checked) {
+                badges += '<span class="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded">Activo</span>';
+            }
+            if (destacadoCheckbox.checked) {
+                badges += '<span class="px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded"><i class="fas fa-star"></i> Destacado</span>';
+            }
+            badgesEl.innerHTML = badges;
+        }
+    }
+
+    [nameInput, descInput, priceInput, imageInput, activoCheckbox, destacadoCheckbox].forEach(input => {
+        if (input) input.addEventListener('input', updatePreview);
+        if (input && input.type === 'checkbox') input.addEventListener('change', updatePreview);
+    });
+});
+</script>
+{% endblock %}

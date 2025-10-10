@@ -1,54 +1,123 @@
-<!DOCTYPE html>
-<html lang="es">
+{% extends 'base.html' %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Tailwind generado -->
-  <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
-  <!-- Estilos generales -->
-  <link href="{{ url_for('static', filename='css/home.css') }}" rel="stylesheet">
-  <!-- Estilos del carrusel -->
-  <link href="{{ url_for('static', filename='css/carrusel.css') }}" rel="stylesheet">
+{% block title %}Pastelería Delicias - Contacto{% endblock %}
 
-  <title>Pastelería Delicias</title>
-</head>
-
-<body>
-  <!-- Header -->
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand">
-        <span class="logo"></span>
-        <h1>Pastelería Delicias</h1>
-      </div>
-      <nav class="nav">
-        <a href="{{ url_for('index') }}">Inicio</a>
-        <a href="{{ url_for('productos') }}">Productos</a>
-        <a href="{{ url_for('contactanos') }}">Contacto</a>
-      </nav>
-      <button class="btn btn-primary">Comprar ahora</button>
+{% block content %}
+<div class="container">
+  <div class="section">
+    <div class="section-header">
+      <h2 class="kicker reveal">Ponte en Contacto</h2>
+      <h1 class="section-title reveal reveal-stagger-1">Visítanos o Escríbenos</h1>
+      <p class="section-subtitle reveal reveal-stagger-2">Estamos aquí para hacer tus celebraciones especiales aún más deliciosas</p>
     </div>
-  </header>
 
+    <div class="grid">
+      <div>
+        <div class="card reveal reveal-left">
+          <h3>Información de Contacto</h3>
+          <p class="muted mb-4">Estamos listos para atenderte en nuestra pastelería o responder tus consultas.</p>
 
+          <div class="vstack gap-3">
+            <div class="flex items-center gap-3">
+              <span class="text-lg">🏠</span>
+              <div>
+                <strong>Dirección:</strong><br>
+                <span class="muted">Av. Central #456, Miraflores<br>Lima, Perú, LIMA 15074</span>
+              </div>
+            </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <p class="copyright">
-        &copy; 2025 Pastelería Delicias. Todos los derechos reservados.
-      </p>
-      <div class="links">
-        <a href="mailto:info@pasteleriadelicias.com">info@pasteleriadelicias.com</a>
-        <a href="tel:5551234567">Teléfono: 555-123-4567</a>
+            <div class="flex items-center gap-3">
+              <span class="text-lg">📱</span>
+              <div>
+                <strong>Celular/WhatsApp:</strong><br>
+                <a href="https://wa.me/5112345678" target="_blank" class="text-primary hover:underline">(01) 234-5678</a>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="text-lg">✉️</span>
+              <div>
+                <strong>Correo electrónico:</strong><br>
+                <a href="mailto:info@pasteleriadelicias.com" class="text-primary hover:underline">info@pasteleriadelicias.com</a>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <span class="text-lg">🕐</span>
+              <div>
+                <strong>Atención:</strong><br>
+                <span class="muted">Lunes a Sábado: 10:00 AM - 8:00 PM<br>Domingo: 10:00 AM - 6:00 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <h4 class="mb-3">Síguenos en redes sociales</h4>
+            <div class="flex gap-3">
+              <a href="#" class="btn btn-secondary">Facebook</a>
+              <a href="#" class="btn btn-secondary">Instagram</a>
+              <a href="https://wa.me/5112345678" target="_blank" class="btn btn-primary">WhatsApp</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="vstack gap-6">
+          <div class="card reveal reveal-right">
+            <h3>📍 Visítanos</h3>
+            <p class="muted">Av. Central #456<br>Miraflores<br>Lima, Perú, LIMA 15074</p>
+            <a href="#" class="btn btn-secondary mt-2">Ver en Maps</a>
+          </div>
+
+          <div class="card reveal reveal-right reveal-stagger-1">
+            <h3>📞 Contáctanos</h3>
+            <div class="vstack gap-2">
+              <p class="muted">
+                <strong>Teléfono:</strong><br>
+                <a href="tel:+5112345678">(01) 234-5678</a>
+              </p>
+              <p class="muted">
+                <strong>WhatsApp:</strong><br>
+                <a href="https://wa.me/5112345678" target="_blank">(01) 234-5678</a>
+              </p>
+              <p class="muted">
+                <strong>Correo:</strong><br>
+                <a href="mailto:info@pasteleriadelicias.com">info@pasteleriadelicias.com</a>
+              </p>
+            </div>
+          </div>
+
+          <div class="card reveal reveal-right reveal-stagger-2">
+            <h3>🕐 Horario</h3>
+            <div class="list">
+              <div class="list-item">
+                <span>Lunes a Viernes</span>
+                <span>9:00 AM - 7:00 PM</span>
+              </div>
+              <div class="list-item">
+                <span>Sábado</span>
+                <span>10:00 AM - 6:00 PM</span>
+              </div>
+              <div class="list-item">
+                <span>Domingo</span>
+                <span>10:00 AM - 4:00 PM</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card reveal reveal-right reveal-stagger-3">
+            <h3>🎂 Síguenos</h3>
+            <p class="muted mb-3">Entérate de nuestras promociones y nuevos productos</p>
+            <div class="flex gap-2">
+              <button class="btn btn-secondary">Facebook</button>
+              <button class="btn btn-secondary">Instagram</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </footer>
+  </div>
+</div>
 
-  <!-- JS del carrusel -->
-  <script src="{{ url_for('static', filename='js/carrusel.js') }}"></script>
-</body>
-
-</html>
+{% endblock %}
